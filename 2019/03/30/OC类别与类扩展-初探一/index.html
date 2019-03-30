@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="ZHAORAY&#39;s Blogs">
 <meta property="og:description" content="一、类别（Category）Ⅰ、类别文件的创建1.新建文件2.选择iOS平台Source中的Object-C Fie3.选择File Type为Category，则可建立相应类的类别文件 Ⅱ、类别文件的特征类别文件为.h和.m两个命名为”类名+类别名.h”和”类名+类别名.m” Ⅲ、类别文件格式.h文件中的格式为1234#import &amp;quot;类名.h&amp;quot;@interface 类名 (">
 <meta property="og:locale" content="zh_cn">
-<meta property="og:updated_time" content="2019-03-30T15:28:14.957Z">
+<meta property="og:updated_time" content="2019-03-30T15:40:28.666Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OC类别与类扩展(初探一)">
 <meta name="twitter:description" content="一、类别（Category）Ⅰ、类别文件的创建1.新建文件2.选择iOS平台Source中的Object-C Fie3.选择File Type为Category，则可建立相应类的类别文件 Ⅱ、类别文件的特征类别文件为.h和.m两个命名为”类名+类别名.h”和”类名+类别名.m” Ⅲ、类别文件格式.h文件中的格式为1234#import &amp;quot;类名.h&amp;quot;@interface 类名 (">
@@ -114,11 +114,9 @@
 <li>3.类扩展定义的方法必须在类的实现中进行实现( 因为单独定义类的扩展的话 是只生产一个.h文件的，而类别是会生成.h .m两个文件的，因此 类别可以在自己的文件里面实现自己的实现方法，而扩展只能在需要扩展的类里面去进行扩展)。如果单独定义类扩展的文件并且只定义属性的话，也需要将类实现文件中包含进类扩展文件，否则会找不到属性的<code>set</code>和<code>get</code>方法。</li>
 </ul>
 <p>注：在我们自定义类的.m实现文件中，@interface部分即是该类的扩展。如我们创建的继承自<code>UIViewController</code>的类的.m文件代码如下</p>
-<p>#import “MyViewController.h”</p>
 <p>// 此乃本类的扩展</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@interface MyViewController ()</span><br><span class="line">// 在此声明方法，添加成员变量和属性</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation MyViewController</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    // Do any additional setup after loading the view.</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)didReceiveMemoryWarning &#123;</span><br><span class="line">    [super didReceiveMemoryWarning];</span><br><span class="line">    // Dispose of any resources that can be recreated.</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
-<p>当我们为<code>MyViewController</code>添加一个名为<code>MyViewController_Extension.h</code>的扩展时，可以看到<code>MyViewController_Extension.h</code>中的代码如下</p>
-<p>#import “MyViewController.h”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@interface MyViewController ()</span><br><span class="line">// 在此声明方法，添加成员变量和属性</span><br><span class="line">@end</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;MyViewController.h&quot;</span><br><span class="line">@interface MyViewController ()</span><br><span class="line">// 在此声明方法，添加成员变量和属性</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation MyViewController</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    // Do any additional setup after loading the view.</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)didReceiveMemoryWarning &#123;</span><br><span class="line">    [super didReceiveMemoryWarning];</span><br><span class="line">    // Dispose of any resources that can be recreated.</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>当我们为<code>MyViewController</code>添加一个名为<code>MyViewController_Extension.h</code>的扩展时，可以看到<code>MyViewController_Extension.h</code>中的代码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;MyViewController.h&quot;</span><br><span class="line">@interface MyViewController ()</span><br><span class="line">// 在此声明方法，添加成员变量和属性</span><br><span class="line">@end</span><br></pre></td></tr></table></figure></p>
 <p>可以看出，单独创建的扩展文件中的内容和.m实现文件中扩展的内容是一样的，当在<code>MyViewController.h</code>扩展文件中声明了方法，需要将<code>MyViewController_Extension.h</code>引入到<code>MyViewController.m</code>文件中，并在<code>MyViewController.m</code>文件中实现该方法</p>
 <p>总结</p>
 <h5 id="类别（Category）和扩展（Extension）的区别"><a href="#类别（Category）和扩展（Extension）的区别" class="headerlink" title="类别（Category）和扩展（Extension）的区别"></a>类别（Category）和扩展（Extension）的区别</h5><ul>
@@ -127,31 +125,20 @@
 </ul>
 <h1 id="拓展：协议protocol"><a href="#拓展：协议protocol" class="headerlink" title="拓展：协议protocol"></a>拓展：协议protocol</h1><p>协议文件的创建<br>1.新建文件<br>2.选择iOS平台Source中的Object-C Fie<br>3.选择File Type为protocol，则可建立协议文件</p>
 <p>协议文件的特征<br>1.协议文件为单一的.h文件<br>2.命名规则一般为”类名Delegate.h”</p>
-<p>使用格式<br>.h文件中的格式为</p>
-<h1 id="import-lt-Foundation-Foundation-h-gt"><a href="#import-lt-Foundation-Foundation-h-gt" class="headerlink" title="import &lt;Foundation/Foundation.h&gt;"></a>import &lt;Foundation/Foundation.h&gt;</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@protocol 类名Delegate &lt;NSObject&gt;</span><br><span class="line"></span><br><span class="line">// 在此声明协议方法</span><br><span class="line">// @requires修饰的声明方法，代理方必须实现</span><br><span class="line">// @optional修饰的声明方法，代理方可以不实现</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>使用格式<br>.h文件中的格式为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># import &lt;Foundation/Foundation.h&gt; </span><br><span class="line">@protocol 类名Delegate &lt;NSObject&gt;</span><br><span class="line"></span><br><span class="line">// 在此声明协议方法</span><br><span class="line">// @requires修饰的声明方法，代理方必须实现</span><br><span class="line">// @optional修饰的声明方法，代理方可以不实现</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure></p>
 <p>使用方法<br>委托方将该协议文件导入自己的.h文件中，并添加一个遵守该协议的代理属性</p>
 <p>注：<strong>就像一般把扩展写在.m文件中，而不单独建立一个扩展文件一样；一般开发中，不单独建立一个协议文件，而是将协议制定在委托方的.h文件中。</strong></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/30/OC类别与类扩展-初探一/" data-id="cjtvns2vq0001xp566jy5ofd1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/30/OC类别与类扩展-初探一/" data-id="cjtvnx8hl00002c56gu50zcf8" class="article-share-link">Share</a>
       
       
     </footer>
   </div>
   
     
-<nav id="article-nav">
-  
-  
-    <a href="/2019/03/30/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
-    </a>
-  
-</nav>
-
   
 </article>
 
@@ -185,10 +172,6 @@
         
           <li>
             <a href="/2019/03/30/OC类别与类扩展-初探一/">OC类别与类扩展(初探一)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/03/30/hello-world/">Hello World</a>
           </li>
         
       </ul>
