@@ -5,19 +5,19 @@
   
 
   
-  <title>类变量,局部变量与实例变量 | ZHAORAY&#39;s Blogs</title>
+  <title>OC中变量之异同 | ZHAORAY&#39;s Blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="成员变量（实例变量）&amp;amp;局部变量区别：(1)作用域  成员变量：针对整个类有效。 局部变量：只在某个范围内有效。(一般指的就是方法,语句体内)(2)存储位置 成员变量：随着对象的创建而存在，随着对象的消失而消失，存储在堆内存中。 局部变量：在方法被调用，或者语句被执行的时候存在，存储在栈内存中。当方法调用完，或者语句结束后，就自动释放。(3)初始值 成员变量：有默认初始值。 局部变量：没有默">
+  <meta name="description" content="成员变量（实例变量）&amp;amp;局部变量区别：(1)作用域  成员变量：针对整个类有效。 局部变量：只在某个范围内有效。(一般指的就是方法,语句体内)  (2)存储位置  成员变量：随着对象的创建而存在，随着对象的消失而消失，存储在堆内存中。 局部变量：在方法被调用，或者语句被执行的时候存在，存储在栈内存中。当方法调用完，或者语句结束后，就自动释放。  (3)初始值  成员变量：有默认初始值。 局部">
 <meta property="og:type" content="article">
-<meta property="og:title" content="类变量,局部变量与实例变量">
+<meta property="og:title" content="OC中变量之异同">
 <meta property="og:url" content="http://yoursite.com/2019/02/03/小记-变量异同/index.html">
 <meta property="og:site_name" content="ZHAORAY&#39;s Blogs">
-<meta property="og:description" content="成员变量（实例变量）&amp;amp;局部变量区别：(1)作用域  成员变量：针对整个类有效。 局部变量：只在某个范围内有效。(一般指的就是方法,语句体内)(2)存储位置 成员变量：随着对象的创建而存在，随着对象的消失而消失，存储在堆内存中。 局部变量：在方法被调用，或者语句被执行的时候存在，存储在栈内存中。当方法调用完，或者语句结束后，就自动释放。(3)初始值 成员变量：有默认初始值。 局部变量：没有默">
+<meta property="og:description" content="成员变量（实例变量）&amp;amp;局部变量区别：(1)作用域  成员变量：针对整个类有效。 局部变量：只在某个范围内有效。(一般指的就是方法,语句体内)  (2)存储位置  成员变量：随着对象的创建而存在，随着对象的消失而消失，存储在堆内存中。 局部变量：在方法被调用，或者语句被执行的时候存在，存储在栈内存中。当方法调用完，或者语句结束后，就自动释放。  (3)初始值  成员变量：有默认初始值。 局部">
 <meta property="og:locale" content="zh_cn">
-<meta property="og:updated_time" content="2019-04-02T16:30:45.695Z">
+<meta property="og:updated_time" content="2019-04-02T17:03:02.120Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="类变量,局部变量与实例变量">
-<meta name="twitter:description" content="成员变量（实例变量）&amp;amp;局部变量区别：(1)作用域  成员变量：针对整个类有效。 局部变量：只在某个范围内有效。(一般指的就是方法,语句体内)(2)存储位置 成员变量：随着对象的创建而存在，随着对象的消失而消失，存储在堆内存中。 局部变量：在方法被调用，或者语句被执行的时候存在，存储在栈内存中。当方法调用完，或者语句结束后，就自动释放。(3)初始值 成员变量：有默认初始值。 局部变量：没有默">
+<meta name="twitter:title" content="OC中变量之异同">
+<meta name="twitter:description" content="成员变量（实例变量）&amp;amp;局部变量区别：(1)作用域  成员变量：针对整个类有效。 局部变量：只在某个范围内有效。(一般指的就是方法,语句体内)  (2)存储位置  成员变量：随着对象的创建而存在，随着对象的消失而消失，存储在堆内存中。 局部变量：在方法被调用，或者语句被执行的时候存在，存储在栈内存中。当方法调用完，或者语句结束后，就自动释放。  (3)初始值  成员变量：有默认初始值。 局部">
   
     <link rel="alternate" href="/atom.xml" title="ZHAORAY&#39;s Blogs" type="application/atom+xml">
   
@@ -82,7 +82,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      类变量,局部变量与实例变量
+      OC中变量之异同
     </h1>
   
 
@@ -90,21 +90,61 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="成员变量（实例变量）-amp-局部变量区别："><a href="#成员变量（实例变量）-amp-局部变量区别：" class="headerlink" title="成员变量（实例变量）&amp;局部变量区别："></a>成员变量（实例变量）&amp;局部变量区别：</h3><p>(1)作用域</p>
+        <h2 id="成员变量（实例变量）-amp-局部变量区别："><a href="#成员变量（实例变量）-amp-局部变量区别：" class="headerlink" title="成员变量（实例变量）&amp;局部变量区别："></a>成员变量（实例变量）&amp;局部变量区别：</h2><p><strong><em>(1)作用域</em></strong></p>
 <ul>
 <li>成员变量：针对整个类有效。</li>
-<li>局部变量：只在某个范围内有效。(一般指的就是方法,语句体内)<br>(2)存储位置</li>
+<li>局部变量：只在某个范围内有效。(一般指的就是方法,语句体内)</li>
+</ul>
+<p><strong><em>(2)存储位置</em></strong></p>
+<ul>
 <li>成员变量：随着对象的创建而存在，随着对象的消失而消失，存储在堆内存中。</li>
-<li>局部变量：在方法被调用，或者语句被执行的时候存在，存储在栈内存中。<br>当方法调用完，或者语句结束后，就自动释放。<br>(3)初始值</li>
+<li>局部变量：在方法被调用，或者语句被执行的时候存在，存储在栈内存中。<br>当方法调用完，或者语句结束后，就自动释放。</li>
+</ul>
+<p><strong><em>(3)初始值</em></strong></p>
+<ul>
 <li>成员变量：有默认初始值。</li>
 <li>局部变量：没有默认初始值，使用前必须赋值。</li>
 </ul>
-<h3 id="成员变量（实例变量）-amp-静态变量（类变量）区别："><a href="#成员变量（实例变量）-amp-静态变量（类变量）区别：" class="headerlink" title="成员变量（实例变量）&amp;静态变量（类变量）区别："></a>成员变量（实例变量）&amp;静态变量（类变量）区别：</h3><p>A：调用方式<br>静态变量也称为类变量，可以直接通过类名调用。也可以通过对象名调用。<br>这个变量属于类。<br><strong>成员变量也称为实例变量</strong>，只能通过对象名调用。这个变量属于对象。<br>B：存储位置<br>静态变量存储在方法区长中的静态区。<br>成员变量存储在堆内存。<br>C：生命周期<br>静态变量随着类的加载而存在，随着类的消失而消失。生命周期长。<br>成员变量随着对象的创建而存在，随着对象的消失而消失。<br>D：与对象的相关性<br>静态变量是所有对象共享的数据。<br>成员变量是每个对象所特有的数据。</p>
+<h2 id="成员变量（实例变量）-amp-静态变量（类变量）区别："><a href="#成员变量（实例变量）-amp-静态变量（类变量）区别：" class="headerlink" title="成员变量（实例变量）&amp;静态变量（类变量）区别："></a>成员变量（实例变量）&amp;静态变量（类变量）区别：</h2><p><strong><em>A：调用方式</em></strong></p>
+<ul>
+<li>静态变量也称为类变量，可以直接通过类名调用。也可以通过对象名调用。属于类。</li>
+<li><strong>成员变量也称为实例变量</strong>，只能通过对象名调用。这个变量属于对象。</li>
+</ul>
+<p><strong><em>B：存储位置</em></strong></p>
+<ul>
+<li>静态变量存储在方法区长中的静态区。</li>
+<li>成员变量存储在堆内存。</li>
+</ul>
+<p><strong><em>C：生命周期</em></strong></p>
+<ul>
+<li>静态变量随着类的加载而存在，随着类的消失而消失。生命周期长。</li>
+<li>成员变量随着对象的创建而存在，随着对象的消失而消失。</li>
+</ul>
+<p><strong><em>D：与对象的相关性</em></strong></p>
+<ul>
+<li>静态变量是所有对象共享的数据。</li>
+<li>成员变量是每个对象所特有的数据。</li>
+</ul>
+<h2 id="全局变量与静态全局变量的区别"><a href="#全局变量与静态全局变量的区别" class="headerlink" title="全局变量与静态全局变量的区别"></a>全局变量与静态全局变量的区别</h2><p><strong>全局变量</strong></p>
+<pre><code>存储方式：静态存储，存储在全局(静态)区
+生命周期：静态存储方式决定了其生命周期为 从程序开始运行到程序结束
+作用域：该程序的所有文件
+</code></pre><p><strong>静态全局变量</strong></p>
+<pre><code>存储方式：静态存储，存储在全局(静态)区
+生命周期：静态存储方式决定了其生命周期为 从程序开始运行到程序结束
+作用域：只有申明该变量的文件才可以访问到
+</code></pre><p><strong>异同:</strong>    </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">静态全局变量和全局变量的存储方式、生命周期是相同的。</span><br><span class="line">但是它们的作用域是不同的，全局变量在所有文件中都可以访问到，</span><br><span class="line">而静态全局变量只能在其申明的文件中才能访问到。</span><br><span class="line">也就是说，static改变了全局变量的作用域，从而达到对其他文件隐藏变量的目的</span><br></pre></td></tr></table></figure>
+<h2 id="局部变量与静态局部变量的区别"><a href="#局部变量与静态局部变量的区别" class="headerlink" title="局部变量与静态局部变量的区别"></a>局部变量与静态局部变量的区别</h2><p><strong>局部变量</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">存储方式：动态存储， 存储在堆(对象类型)或栈(数据类型)中</span><br><span class="line">生命周期：动态存储方式决定了其生命周期为变量使用期间</span><br><span class="line">作用域：方法和函数内，确切的说从申明到遇到 ‘&#125;‘ 为止。</span><br></pre></td></tr></table></figure>
+<p><strong>静态局部变量</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">存储方式：静态存储，存储在全局(静态)区</span><br><span class="line">生命周期：静态存储方式决定了其生命周期为 从程序开始运行到程序结束,静态更加&quot;持久&quot;</span><br><span class="line">作用域：方法和函数内，确切的说从申明到遇到 ‘&#125;‘ 为止。</span><br></pre></td></tr></table></figure>
+<p><strong>异同</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">静态局部变量和局部变量的作用域是相同的。</span><br><span class="line">但是它们的存储方式是不同的，存储方式的不同导致了它们的生命周期也是不同的。</span><br><span class="line">也就是说static改变了局部变量的存储方式，从而达到保存变量的目的</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/02/03/小记-变量异同/" data-id="cju001g6j0002oa56ubeqloni" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/02/03/小记-变量异同/" data-id="cju017b6c0001rk56136nxs2e" class="article-share-link">Share</a>
       
       
     </footer>
@@ -162,6 +202,10 @@
       <ul>
         
           <li>
+            <a href="/2019/04/03/进程内存是如何分区的/">进程内存是如何分区的</a>
+          </li>
+        
+          <li>
             <a href="/2019/04/02/初探内存管理-一/">初探内存管理(一)</a>
           </li>
         
@@ -175,10 +219,6 @@
         
           <li>
             <a href="/2019/04/01/数据结构之串-模式匹配KMP/">数据结构之串-模式匹配KMP</a>
-          </li>
-        
-          <li>
-            <a href="/2019/03/30/OC类别与类扩展-初探一/">OC类别与类扩展(初探一)</a>
           </li>
         
       </ul>

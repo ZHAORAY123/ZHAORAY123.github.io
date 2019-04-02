@@ -5,19 +5,19 @@
   
 
   
-  <title>数据结构之串-模式匹配KMP | ZHAORAY&#39;s Blogs</title>
+  <title>进程内存是如何分区的 | ZHAORAY&#39;s Blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="数据结构算法- 串之模式匹配KMPhttps://www.cnblogs.com/yjiyjige/p/3263858.html">
+  <meta name="description" content="#进程的内存分区   代码区  存放代码，只读防止运行时被修改。  常量区   全局(静态)区  数据区静态存储方式下，变量被分配的空间，放在这里的变量已经初始化。 BSS同数据区相同，只不过放在这里的变量还没有初始化。   堆  动态存储方式下，变量被分配的空间,它大小并不固定，可动态扩张或缩减。当进程调用alloc等函数分配内存时，新分配的内存就被动态添加到堆上（堆被扩张）；当利用reals">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据结构之串-模式匹配KMP">
-<meta property="og:url" content="http://yoursite.com/2019/04/01/数据结构之串-模式匹配KMP/index.html">
+<meta property="og:title" content="进程内存是如何分区的">
+<meta property="og:url" content="http://yoursite.com/2019/04/03/进程内存是如何分区的/index.html">
 <meta property="og:site_name" content="ZHAORAY&#39;s Blogs">
-<meta property="og:description" content="数据结构算法- 串之模式匹配KMPhttps://www.cnblogs.com/yjiyjige/p/3263858.html">
+<meta property="og:description" content="#进程的内存分区   代码区  存放代码，只读防止运行时被修改。  常量区   全局(静态)区  数据区静态存储方式下，变量被分配的空间，放在这里的变量已经初始化。 BSS同数据区相同，只不过放在这里的变量还没有初始化。   堆  动态存储方式下，变量被分配的空间,它大小并不固定，可动态扩张或缩减。当进程调用alloc等函数分配内存时，新分配的内存就被动态添加到堆上（堆被扩张）；当利用reals">
 <meta property="og:locale" content="zh_cn">
-<meta property="og:updated_time" content="2019-03-31T18:04:08.112Z">
+<meta property="og:updated_time" content="2019-04-02T16:59:19.096Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数据结构之串-模式匹配KMP">
-<meta name="twitter:description" content="数据结构算法- 串之模式匹配KMPhttps://www.cnblogs.com/yjiyjige/p/3263858.html">
+<meta name="twitter:title" content="进程内存是如何分区的">
+<meta name="twitter:description" content="#进程的内存分区   代码区  存放代码，只读防止运行时被修改。  常量区   全局(静态)区  数据区静态存储方式下，变量被分配的空间，放在这里的变量已经初始化。 BSS同数据区相同，只不过放在这里的变量还没有初始化。   堆  动态存储方式下，变量被分配的空间,它大小并不固定，可动态扩张或缩减。当进程调用alloc等函数分配内存时，新分配的内存就被动态添加到堆上（堆被扩张）；当利用reals">
   
     <link rel="alternate" href="/atom.xml" title="ZHAORAY&#39;s Blogs" type="application/atom+xml">
   
@@ -68,10 +68,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-数据结构之串-模式匹配KMP" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-进程内存是如何分区的" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/04/01/数据结构之串-模式匹配KMP/" class="article-date">
-  <time datetime="2019-03-31T18:03:37.000Z" itemprop="datePublished">2019-04-01</time>
+    <a href="/2019/04/03/进程内存是如何分区的/" class="article-date">
+  <time datetime="2019-04-02T16:59:10.000Z" itemprop="datePublished">2019-04-03</time>
 </a>
     
   </div>
@@ -82,7 +82,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      数据结构之串-模式匹配KMP
+      进程内存是如何分区的
     </h1>
   
 
@@ -90,12 +90,40 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="数据结构算法-串之模式匹配KMP"><a href="#数据结构算法-串之模式匹配KMP" class="headerlink" title="数据结构算法- 串之模式匹配KMP"></a>数据结构算法- 串之模式匹配KMP</h1><p><a href="https://www.cnblogs.com/yjiyjige/p/3263858.html" target="_blank" rel="noopener">https://www.cnblogs.com/yjiyjige/p/3263858.html</a></p>
+        <hr>
+<p>#进程的内存分区</p>
+<blockquote>
+</blockquote>
+<p><strong>代码区</strong></p>
+<ul>
+<li>存放代码，只读防止运行时被修改。</li>
+</ul>
+<p><strong>常量区</strong></p>
+<blockquote>
+</blockquote>
+<p><strong>全局(静态)区</strong></p>
+<ul>
+<li>数据区<br>静态存储方式下，变量被分配的空间，放在这里的变量已经初始化。</li>
+<li>BSS<br>同数据区相同，只不过放在这里的变量还没有初始化。</li>
+</ul>
+<blockquote>
+<p><strong>堆</strong></p>
+<ul>
+<li><strong>动态存储方式</strong>下，变量被分配的空间,它大小并不固定，可动态扩张或缩减。当进程调用alloc等函数分配内存时，新分配的内存就被动态添加到堆上（堆被扩张）；当利用realse释放内存时，被释放的内存从堆中被剔除（堆被缩减）。<strong>放在这里的变量需要程序员手动管理</strong>(ARC本质上还是属于手动管理)。</li>
+</ul>
+</blockquote>
+<blockquote>
+<p><strong>栈</strong></p>
+<ul>
+<li><strong>动态存储</strong>方式下，变量被分配的空间，此时变量由操作系统和编译器管理。并不需要人为管理</li>
+</ul>
+</blockquote>
+<hr>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/01/数据结构之串-模式匹配KMP/" data-id="cju017b6g0003rk56pya0cln9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/04/03/进程内存是如何分区的/" data-id="cju017b6j0006rk56owctr0b1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -104,19 +132,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/04/02/日志分析之NSLOG/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          日志分析之NSLOG
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/03/30/OC类别与类扩展-初探一/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/04/02/初探内存管理-一/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">OC类别与类扩展(初探一)</div>
+      <div class="article-nav-title">初探内存管理(一)</div>
     </a>
   
 </nav>
