@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="ZHAORAY&#39;s Blogs">
 <meta property="og:description" content="OC中有两种两种内存管理:1️⃣在家吃饭:自己做饭自己擦桌子:自己申请内存自己释放(省钱,自由)2️⃣在馆子吃饭:自己申请由自动释放池释放(省事,不用自己动手) 1.内存的创建与释放(手动)12345678#define RELEASE(obj) if(!obj)&amp;#123; [obj release]; obj = nil; &amp;#125;//创建id  testObject = [[ClassN">
 <meta property="og:locale" content="zh_cn">
-<meta property="og:updated_time" content="2019-04-02T16:03:52.057Z">
+<meta property="og:updated_time" content="2019-04-02T17:36:02.373Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初探内存管理(一)">
 <meta name="twitter:description" content="OC中有两种两种内存管理:1️⃣在家吃饭:自己做饭自己擦桌子:自己申请内存自己释放(省钱,自由)2️⃣在馆子吃饭:自己申请由自动释放池释放(省事,不用自己动手) 1.内存的创建与释放(手动)12345678#define RELEASE(obj) if(!obj)&amp;#123; [obj release]; obj = nil; &amp;#125;//创建id  testObject = [[ClassN">
@@ -100,7 +100,7 @@
 <li>testObject超出它的作用域,会被”自动释放池”释放,无法继续使用</li>
 <li>PS: 只需要负责自己的对象的创建位置和作用域,他的释放无需你操心             </li>
 </ul>
-<h5 id="特殊-如果一个对象被加入自动释放池-又以某个函数的身份返回出去-那么他的作用域相应地也扩大到了外面调用者那层-这个对象并不会因为autorelease而在返回出去的时候系统自动释放其内存"><a href="#特殊-如果一个对象被加入自动释放池-又以某个函数的身份返回出去-那么他的作用域相应地也扩大到了外面调用者那层-这个对象并不会因为autorelease而在返回出去的时候系统自动释放其内存" class="headerlink" title="特殊:如果一个对象被加入自动释放池,又以某个函数的身份返回出去.那么他的作用域相应地也扩大到了外面调用者那层,这个对象并不会因为autorelease而在返回出去的时候系统自动释放其内存"></a>特殊:如果一个对象被加入自动释放池,又以某个函数的身份返回出去.那么他的作用域相应地也扩大到了外面调用者那层,这个对象并不会因为autorelease而在返回出去的时候系统自动释放其内存</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">    /*  生成自动释放的实例test */</span><br><span class="line">- (NSString) testAutoReleasePool &#123; 1️⃣</span><br><span class="line">    NSString *test = [[NSString alloc] initWithString:@&quot;testAutorelease&quot;];</span><br><span class="line">    return [test autorelease];</span><br><span class="line">&#125;</span><br><span class="line">    /* 调用test 并且作用域从1️⃣扩大为2️⃣ */</span><br><span class="line">- (void) invokeTestMethod &#123; </span><br><span class="line">    NSString *testMethod = [self testAutoReleasePool];2️⃣</span><br><span class="line">    NSLog(@&quot;%@&quot;,testMethod);</span><br><span class="line">&#125;</span><br><span class="line">```  </span><br><span class="line"># retain(保留)对象</span><br><span class="line">我们现在有一个问题,自动释放池会帮我们自动处理内存的释放,可是控制控制权并不在我们手里,**万一我们要使用的对象被释放了怎么办?**</span><br></pre></td></tr></table></figure>
+<h5 id="特殊-如果一个对象被加入自动释放池-又以某个函数的身份返回出去-那么他的作用域相应地也扩大到了外面调用者那层-这个对象并不会因为autorelease而在返回出去的时候系统自动释放其内存"><a href="#特殊-如果一个对象被加入自动释放池-又以某个函数的身份返回出去-那么他的作用域相应地也扩大到了外面调用者那层-这个对象并不会因为autorelease而在返回出去的时候系统自动释放其内存" class="headerlink" title="特殊:如果一个对象被加入自动释放池,又以某个函数的身份返回出去.那么他的作用域相应地也扩大到了外面调用者那层,这个对象并不会因为autorelease而在返回出去的时候系统自动释放其内存"></a>特殊:如果一个对象被加入自动释放池,又以某个函数的身份返回出去.那么他的作用域相应地也扩大到了外面调用者那层,这个对象并不会因为autorelease而在返回出去的时候系统自动释放其内存</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/*  生成自动释放的实例test */</span><br><span class="line">- (NSString) testAutoReleasePool &#123; 1️⃣</span><br><span class="line">    NSString *test = [[NSString alloc] initWithString:@&quot;testAutorelease&quot;];</span><br><span class="line">    return [test autorelease];</span><br><span class="line">&#125;</span><br><span class="line">/* 调用test 并且作用域从1️⃣扩大为2️⃣ */</span><br><span class="line">- (void) invokeTestMethod &#123; </span><br><span class="line">    NSString *testMethod = [self testAutoReleasePool];2️⃣</span><br><span class="line">    NSLog(@&quot;%@&quot;,testMethod);</span><br><span class="line">&#125;</span><br><span class="line">```  </span><br><span class="line"># retain(保留)对象</span><br><span class="line">我们现在有一个问题,自动释放池会帮我们自动处理内存的释放,可是控制控制权并不在我们手里,**万一我们要使用的对象被释放了怎么办?**</span><br></pre></td></tr></table></figure>
 <p>@interface ClassName: NSObject<br>{<br>    NSFileManager *_fileMgr;//成员变量<br>}<br>@end</p>
 <p>@implementation ClassName </p>
 <ul>
@@ -108,9 +108,14 @@
 <li>(void) dealloc {<br>  if(!_fileMgr) {<pre><code>[_fileMgr release];
 _fileMgr = nil;
 }
-</code></pre>  [super dealloc];<br>  }<br>}<br>@end<br><code>`</code></li>
+</code></pre>  [super dealloc];<br>  }<br>}<br>@end<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">上面我们采用了NSFileManager类方法来实例化对象,但是我们知道自动释放池的原理,只要所创建的对象超出作用域(**这里是初始化init()方法**),内存自动Release! 怎么办? 主角登场.....Retain!!!!</span><br><span class="line">*我们使用retain将我们上诉标记代码修改如下:*</span><br><span class="line">`_fileMgr = [[NSFileManager defaultManager]retain];`</span><br><span class="line">最后,记得将成员变量放入dealloc中释放其内存.</span><br><span class="line"></span><br><span class="line"># copy(复制)对象</span><br><span class="line">对于那些实现了NSCopying协议的库,我们可以对创建出来的对象copy,对象的引用计数+1</span><br><span class="line">`NSString *strTestA = [[NSString stringWithString:@&quot;Let&apos;s do copy&quot; copy];`</span><br><span class="line">注意:未实现NSCopy协议的类无法使用copy关键字</span><br><span class="line">### copy与retain的异同</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-
+<p>NSMutableString <em>strOrigin = @”test”;//0x06d760a1<br>NSMutableString </em>strCopy   = [strOrigin copy]; //0x06d888b9<br>NSMutableString *strRetain = [strOrigin retain];//0x06d760a1<br><code>`</code><br><strong>retain使strOrigin引用计数加一,并且指针仍然指向strOrigin<br>但是copy却复制了新的,指向另一块新的内存地址,因此我们需要维护一个全新的指针</strong></p>
+<h4 id="Could-I-have-your-attention"><a href="#Could-I-have-your-attention" class="headerlink" title="Could I have your attention?"></a>Could I have your attention?</h4><pre><code>虽然NSString属于一种特殊类,它是一种不可变得常量字符串,由于&quot;享元模式&quot;的影响,
+对于某些类来说,即使使用了copy,其返回的指针仍然和原对象的诊治相同,
+NSString就属于这一类
+</code></pre>
       
     </div>
     <footer class="article-footer">

@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="ZHAORAY&#39;s Blogs">
 <meta property="og:description" content="1.什么是类方法？在OC类定义方法时以 + 开头的方法，又称为静态方法(可以简单地理解为:在对象还没产生之前,类方法已经存在)。如：123+ (id) stringWithString: (NSString *)  aString;应用: NSString *strTest = [NSString stringWithString: @&amp;quot;我是类方法&amp;quot;];  //其中类方法&amp;qu">
 <meta property="og:locale" content="zh_cn">
-<meta property="og:updated_time" content="2019-04-02T16:29:29.459Z">
+<meta property="og:updated_time" content="2019-04-02T17:07:27.600Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="类方法与实例方法">
 <meta name="twitter:description" content="1.什么是类方法？在OC类定义方法时以 + 开头的方法，又称为静态方法(可以简单地理解为:在对象还没产生之前,类方法已经存在)。如：123+ (id) stringWithString: (NSString *)  aString;应用: NSString *strTest = [NSString stringWithString: @&amp;quot;我是类方法&amp;quot;];  //其中类方法&amp;qu">
@@ -90,7 +90,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="1-什么是类方法？"><a href="#1-什么是类方法？" class="headerlink" title="1.什么是类方法？"></a>1.什么是类方法？</h1><p>在OC类定义方法时以 + 开头的方法，又称为<strong>静态方法</strong>(<em>可以简单地理解为:在对象还没产生之前,类方法已经存在</em>)。<br>如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">+ (id) stringWithString: (NSString *)  aString;</span><br><span class="line">应用: NSString *strTest = [NSString stringWithString: @&quot;我是类方法&quot;];  </span><br><span class="line">//其中类方法&quot;stringWithString&quot;会为&quot;&quot;</span><br></pre></td></tr></table></figure></p>
+        <h1 id="1-什么是类方法？"><a href="#1-什么是类方法？" class="headerlink" title="1.什么是类方法？"></a>1.什么是类方法？</h1><p>在OC类定义方法时以 + 开头的方法，又称为<strong>静态方法</strong>(<em>可以简单地理解为:在对象还没产生之前,类方法已经存在</em>)。<br>如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">+ (id) stringWithString: (NSString *)  aString;</span><br><span class="line">应用: NSString *strTest = [NSString stringWithString: @&quot;我是类方法&quot;];  </span><br><span class="line">//其中类方法&quot;stringWithString&quot;会为&quot;strTest&quot;自动添加到自动释放池中</span><br></pre></td></tr></table></figure></p>
 <p>其中类方法<code>stringWithString</code>会为<code>strTest</code>创建一块内存.值得注意的是,这块内存已经被加入<code>自动释放池</code>中,<strong>因此类方法创造出来的对象,不需要手动释放</strong></p>
 <p><strong>作用</strong>：不用实例化就可以直接调用的方法，一般是有返回值的，返回对应的实例（数组、字符串等），还有<em>可能就是本身类的实例对象</em>。<br>常用于一些common或者UtiKit等公共方法类中。<br><strong>调用</strong>：[类名 方法名】限制： 不能使用自身属性 ，想要使用的类方法就<strong>要在定义类的.h文件中声明哟，否则不能直接调用</strong>！</p>
 <h1 id="2-什么是实例方法？"><a href="#2-什么是实例方法？" class="headerlink" title="2.什么是实例方法？"></a>2.什么是实例方法？</h1><p>在OC定义中以 - 开头的方法。如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (id) initWithString: (NSString *) aString</span><br><span class="line">应用: NSString *strTest =  [[NSString alloc] initWithString: @&quot;我是实例方法!&quot;];</span><br></pre></td></tr></table></figure></p>
