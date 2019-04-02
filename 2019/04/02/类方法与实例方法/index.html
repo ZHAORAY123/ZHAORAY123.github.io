@@ -7,17 +7,17 @@
   
   <title>类方法与实例方法 | ZHAORAY&#39;s Blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.什么是类方法？在OC类定义方法时以 + 开头的方法，又称为静态方法。如：123+（viod）方法名&amp;#123; &amp;#125; 作用：不用实例话就可以直接调用的方法，一般是有返回值的，返回对应的实例（数组、字符串等），还有可能就是本身类的实例对象。常用于一些common或者UtiKit等公共方法类中。调用：[类名 方法名】限制： 不能使用自身属性 ，想要使用的类方法就要在定义类的.h文件中声明哟">
+  <meta name="description" content="1.什么是类方法？在OC类定义方法时以 + 开头的方法，又称为静态方法(可以简单地理解为:在对象还没产生之前,类方法已经存在)。如：123+ (id) stringWithString: (NSString *)  aString;应用: NSString *strTest = [NSString stringWithString: @&amp;quot;我是类方法&amp;quot;];  //其中类方法&amp;qu">
 <meta property="og:type" content="article">
 <meta property="og:title" content="类方法与实例方法">
 <meta property="og:url" content="http://yoursite.com/2019/04/02/类方法与实例方法/index.html">
 <meta property="og:site_name" content="ZHAORAY&#39;s Blogs">
-<meta property="og:description" content="1.什么是类方法？在OC类定义方法时以 + 开头的方法，又称为静态方法。如：123+（viod）方法名&amp;#123; &amp;#125; 作用：不用实例话就可以直接调用的方法，一般是有返回值的，返回对应的实例（数组、字符串等），还有可能就是本身类的实例对象。常用于一些common或者UtiKit等公共方法类中。调用：[类名 方法名】限制： 不能使用自身属性 ，想要使用的类方法就要在定义类的.h文件中声明哟">
+<meta property="og:description" content="1.什么是类方法？在OC类定义方法时以 + 开头的方法，又称为静态方法(可以简单地理解为:在对象还没产生之前,类方法已经存在)。如：123+ (id) stringWithString: (NSString *)  aString;应用: NSString *strTest = [NSString stringWithString: @&amp;quot;我是类方法&amp;quot;];  //其中类方法&amp;qu">
 <meta property="og:locale" content="zh_cn">
-<meta property="og:updated_time" content="2019-04-02T11:16:23.176Z">
+<meta property="og:updated_time" content="2019-04-02T16:29:29.459Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="类方法与实例方法">
-<meta name="twitter:description" content="1.什么是类方法？在OC类定义方法时以 + 开头的方法，又称为静态方法。如：123+（viod）方法名&amp;#123; &amp;#125; 作用：不用实例话就可以直接调用的方法，一般是有返回值的，返回对应的实例（数组、字符串等），还有可能就是本身类的实例对象。常用于一些common或者UtiKit等公共方法类中。调用：[类名 方法名】限制： 不能使用自身属性 ，想要使用的类方法就要在定义类的.h文件中声明哟">
+<meta name="twitter:description" content="1.什么是类方法？在OC类定义方法时以 + 开头的方法，又称为静态方法(可以简单地理解为:在对象还没产生之前,类方法已经存在)。如：123+ (id) stringWithString: (NSString *)  aString;应用: NSString *strTest = [NSString stringWithString: @&amp;quot;我是类方法&amp;quot;];  //其中类方法&amp;qu">
   
     <link rel="alternate" href="/atom.xml" title="ZHAORAY&#39;s Blogs" type="application/atom+xml">
   
@@ -90,15 +90,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="1-什么是类方法？"><a href="#1-什么是类方法？" class="headerlink" title="1.什么是类方法？"></a>1.什么是类方法？</h1><p>在OC类定义方法时以 + 开头的方法，又称为<strong>静态方法</strong>。如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">+（viod）方法名</span><br><span class="line">&#123; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>作用</strong>：不用实例话就可以直接调用的方法，一般是有返回值的，返回对应的实例（数组、字符串等），还有<em>可能就是本身类的实例对象</em>。<br>常用于一些common或者UtiKit等公共方法类中。<br><strong>调用</strong>：[类名 方法名】限制： 不能使用自身属性 ，想要使用的类方法就<strong>要在定义类的.h文件中声明哟，否则不能直接调用</strong>！</p>
-<h1 id="2-什么是实例方法？"><a href="#2-什么是实例方法？" class="headerlink" title="2.什么是实例方法？"></a>2.什么是实例方法？</h1><p>在OC定义中以 - 开头的方法。如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (viod）方法名</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>作用</strong>：必须先创建实例对象，相当于回应消息模式。实例对象调用的方法。<br><strong>调用</strong>：[对象 方法]<br>可以使用自身属性</p>
-
+        <h1 id="1-什么是类方法？"><a href="#1-什么是类方法？" class="headerlink" title="1.什么是类方法？"></a>1.什么是类方法？</h1><p>在OC类定义方法时以 + 开头的方法，又称为<strong>静态方法</strong>(<em>可以简单地理解为:在对象还没产生之前,类方法已经存在</em>)。<br>如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">+ (id) stringWithString: (NSString *)  aString;</span><br><span class="line">应用: NSString *strTest = [NSString stringWithString: @&quot;我是类方法&quot;];  </span><br><span class="line">//其中类方法&quot;stringWithString&quot;会为&quot;&quot;</span><br></pre></td></tr></table></figure></p>
+<p>其中类方法<code>stringWithString</code>会为<code>strTest</code>创建一块内存.值得注意的是,这块内存已经被加入<code>自动释放池</code>中,<strong>因此类方法创造出来的对象,不需要手动释放</strong></p>
+<p><strong>作用</strong>：不用实例化就可以直接调用的方法，一般是有返回值的，返回对应的实例（数组、字符串等），还有<em>可能就是本身类的实例对象</em>。<br>常用于一些common或者UtiKit等公共方法类中。<br><strong>调用</strong>：[类名 方法名】限制： 不能使用自身属性 ，想要使用的类方法就<strong>要在定义类的.h文件中声明哟，否则不能直接调用</strong>！</p>
+<h1 id="2-什么是实例方法？"><a href="#2-什么是实例方法？" class="headerlink" title="2.什么是实例方法？"></a>2.什么是实例方法？</h1><p>在OC定义中以 - 开头的方法。如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (id) initWithString: (NSString *) aString</span><br><span class="line">应用: NSString *strTest =  [[NSString alloc] initWithString: @&quot;我是实例方法!&quot;];</span><br></pre></td></tr></table></figure></p>
+<p><strong>作用</strong>：必须先创建实例对象，相当于回应消息模式。实例对象调用的方法。 </p>
+<p><strong>调用</strong>：[对象 方法]<br>可以使用自身属性</p>
+<h1 id="ALL-IN-ALL"><a href="#ALL-IN-ALL" class="headerlink" title="ALL IN ALL"></a>ALL IN ALL</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//实例一个对象personA并且手动将其添加到自动释放池</span><br><span class="line">Person personA = [[[Person alloc] init]  autorelease];</span><br><span class="line">//实例化一个对象personB并且自动将其添加到自动释放池</span><br><span class="line">Person personB = [Person person];</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/02/类方法与实例方法/" data-id="cjtzotn6900035656ecxrxk0f" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/04/02/类方法与实例方法/" data-id="cju001g6n0005oa56wqqo5fg5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -106,6 +108,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2019/04/02/初探内存管理-一/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          初探内存管理(一)
+        
+      </div>
+    </a>
   
   
     <a href="/2019/04/02/日志分析之NSLOG/" id="article-nav-older" class="article-nav-link-wrap">
@@ -134,7 +145,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li></ul>
     </div>
   </div>
 
@@ -145,6 +156,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/04/02/初探内存管理-一/">初探内存管理(一)</a>
+          </li>
         
           <li>
             <a href="/2019/04/02/类方法与实例方法/">类方法与实例方法</a>
@@ -160,10 +175,6 @@
         
           <li>
             <a href="/2019/03/30/OC类别与类扩展-初探一/">OC类别与类扩展(初探一)</a>
-          </li>
-        
-          <li>
-            <a href="/2019/01/01/15541123796324/">学习框架列表</a>
           </li>
         
       </ul>
