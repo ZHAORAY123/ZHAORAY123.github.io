@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>assign与retain之异同 | ZHAORAY&#39;s Blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="IOS的对象都继承于NSObject, 该对象有一个方法:retainCount ，内存引用计数。 alloc对象分配后引用计数为1retain 对象的引用计数+1copy 一个对象变成新的对象(新内存地址) 引用计数为1， 原来对象计数不变release 对象引用计数-1 如果为0释放内存autorelease 对象引用计数-1 如果为0不马上释放，最近一个pool时释放 内存管理的原则是最终的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="assign与retain之异同">
+<meta property="og:url" content="http://yoursite.com/2019/04/01/assign/index.html">
+<meta property="og:site_name" content="ZHAORAY&#39;s Blogs">
+<meta property="og:description" content="IOS的对象都继承于NSObject, 该对象有一个方法:retainCount ，内存引用计数。 alloc对象分配后引用计数为1retain 对象的引用计数+1copy 一个对象变成新的对象(新内存地址) 引用计数为1， 原来对象计数不变release 对象引用计数-1 如果为0释放内存autorelease 对象引用计数-1 如果为0不马上释放，最近一个pool时释放 内存管理的原则是最终的">
+<meta property="og:locale" content="zh_cn">
+<meta property="og:updated_time" content="2019-04-03T04:34:23.572Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="assign与retain之异同">
+<meta name="twitter:description" content="IOS的对象都继承于NSObject, 该对象有一个方法:retainCount ，内存引用计数。 alloc对象分配后引用计数为1retain 对象的引用计数+1copy 一个对象变成新的对象(新内存地址) 引用计数为1， 原来对象计数不变release 对象引用计数-1 如果为0释放内存autorelease 对象引用计数-1 如果为0不马上释放，最近一个pool时释放 内存管理的原则是最终的">
+  
+    <link rel="alternate" href="/atom.xml" title="ZHAORAY&#39;s Blogs" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">ZHAORAY&#39;s Blogs</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">抽烟喝酒敲代码,和我的小弟阿虎虎</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-assign" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/01/assign/" class="article-date">
+  <time datetime="2019-03-31T18:03:37.000Z" itemprop="datePublished">2019-04-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      assign与retain之异同
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>IOS的对象都继承于NSObject, 该对象有一个方法:retainCount ，内存引用计数。</p>
+<p>alloc对象分配后引用计数为1<br>retain 对象的引用计数+1<br>copy 一个对象变成新的对象(新内存地址) 引用计数为1， 原来对象计数不变<br>release 对象引用计数-1 如果为0释放内存<br>autorelease 对象引用计数-1 如果为0不马上释放，最近一个pool时释放</p>
+<p>内存管理的原则是最终的引用计数要平衡：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">如果最终引用计数大于0，则会内存泄露</span><br><span class="line">如果当引用计数等于0时还对该对象进行操作，则会出现内存访问失败而crash ，所以尽量设置为nil</span><br><span class="line">这两个问题都很严重，所以请一定注意内存释放和不用过后设置为nil。</span><br></pre></td></tr></table></figure></p>
+<p>区别(assign,retain,copy):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSString *str = [[NSString alloc] initWithString:@&apos;abc&apos;];</span><br></pre></td></tr></table></figure>
+<p>上面一段代码会执行以下两个动作:</p>
+<p> a. 在堆上分配一段内存用来存储@’abc’ ,比如:内存地址为0X1111 内容为 ‘abc’。</p>
+<p> b. 在栈上分配一段内存用来存储str,比如:地址为0XAAAA 内容自然为0X1111。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1.assign的情况:NSString *newStr = [str assign];</span><br></pre></td></tr></table></figure>
+<p>newStr和str完全相同,地址都是0XAAAA ,内容为0X1111 ,即newStr只是str的别名,对任何一个操作就等于对另一个操作。因此retainCount不需要增加。相当于指针赋值，不对引用计数进行操作，注意原对象不用时，一定要把这个设置为nil。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2.retain的情况：NSString * newStr = [str retain];</span><br></pre></td></tr></table></figure></p>
+<p>newStr的地址不再为0XAAAA,可能为0XAABB,但是内容依然为0X1111.因此newStr和str都可以管理’abc’所在的内存。因此 retainCount需要增加1。相当于对原对象的引用计数加1</p>
+<p>3.copy的情况：NSString * newStr = [str copy];</p>
+<p>会在堆上重新开辟一段内存存放@’abc’,比如0X1122,内容为@’abc,同时会在栈上为newStr分配空间,比如地址:0XAACC,内容为0X1122,因此retainCount增加1供newStr来管理0X1122这段内存.</p>
+<p>区别(assign与retain)：</p>
+<ol>
+<li>接触过C，那么假设你用malloc分配了一块内存，并且把它的地址赋值给了指针a，后来你希望指针b也共享这块内存，于是你又把a赋值给（assign）了b。此时a和b指向同一块内存，请问当a不再需要这块内存，能否直接释放它？答案是否定的，因为a并不知道b是否还在使用这块内存，如果a释放了，那么b在使用这块内存的时候会引起程序crash掉。</li>
+<li>了解到1中assign的问题，那么如何解决？最简单的一个方法就是使用引用计数（reference counting），还是上面的那个例子，我们给那块内存设一个引用计数，当内存被分配并且赋值给a时，引用计数是1。当把a赋值给b时引用计数增加到2。这时如果a不再使用这块内存，它只需要把引用计数减1，表明自己不再拥有这块内存。b不再使用这块内存时也把引用计数减1。当引用计数变为0的时候，代表该内存不再被任何指针所引用，系统可以把它直接释放掉。<br>总结：上面两点其实就是assign和retain的区别，assign就是直接赋值，从而可能引起1中的问题，当数据为基础数据类型（NSInteger，CGFloat）和C数据类型（int, float, double, char）时，可以使用assign。retain就如2中所述，使用了引用计数，retain引起引用计数加1, release引起引用计数减1，当引用计数为0时，dealloc函数被调用，内存被回收。</li>
+</ol>
+<p>区别(atomic与nonatomic)：</p>
+<p>atomic、nonatomic，决定编译器生成的getter和setter是否为原子操作。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">atomic</span><br><span class="line"></span><br><span class="line">        设置成员变量的<span class="keyword">@property</span>属性时，默认为atomic，提供多线程安全。</span><br><span class="line"></span><br><span class="line">        在多线程环境下，原子操作是必要的，否则有可能引起错误的结果。加了atomic，<span class="keyword">setter</span>函数会变成下面这样：</span><br><span class="line">                &#123;lock&#125;</span><br><span class="line">                        <span class="keyword">if</span> (property != newValue) &#123; </span><br><span class="line">                                [property release]; </span><br><span class="line">                                property = [newValue <span class="keyword">retain</span>]; </span><br><span class="line">                        &#125;</span><br><span class="line">                &#123;unlock&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">nonatomic</span></span><br><span class="line"></span><br><span class="line">禁止多线程，变量保护，提高性能。</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/04/01/assign/" data-id="cju0pvzvj0000mj56u4oflr3s" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/04/01/数据结构之串-模式匹配KMP/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          数据结构之串-模式匹配KMP
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/03/30/OC类别与类扩展-初探一/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">OC类别与类扩展(初探一)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/04/03/进程内存是如何分区的/">进程内存是如何分区的</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/02/初探内存管理-一/">初探内存管理(一)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/02/类方法与实例方法/">类方法与实例方法</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/02/日志分析之NSLOG/">日志分析之NSLOG</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/01/数据结构之串-模式匹配KMP/">数据结构之串-模式匹配KMP</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 ZHAO RUI<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

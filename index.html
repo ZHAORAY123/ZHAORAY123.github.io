@@ -331,6 +331,62 @@ NSString就属于这一类
 
 
   
+    <article id="post-assign" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/01/assign/" class="article-date">
+  <time datetime="2019-03-31T18:03:37.000Z" itemprop="datePublished">2019-04-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/01/assign/">assign与retain之异同</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>IOS的对象都继承于NSObject, 该对象有一个方法:retainCount ，内存引用计数。</p>
+<p>alloc对象分配后引用计数为1<br>retain 对象的引用计数+1<br>copy 一个对象变成新的对象(新内存地址) 引用计数为1， 原来对象计数不变<br>release 对象引用计数-1 如果为0释放内存<br>autorelease 对象引用计数-1 如果为0不马上释放，最近一个pool时释放</p>
+<p>内存管理的原则是最终的引用计数要平衡：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">如果最终引用计数大于0，则会内存泄露</span><br><span class="line">如果当引用计数等于0时还对该对象进行操作，则会出现内存访问失败而crash ，所以尽量设置为nil</span><br><span class="line">这两个问题都很严重，所以请一定注意内存释放和不用过后设置为nil。</span><br></pre></td></tr></table></figure></p>
+<p>区别(assign,retain,copy):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSString *str = [[NSString alloc] initWithString:@&apos;abc&apos;];</span><br></pre></td></tr></table></figure>
+<p>上面一段代码会执行以下两个动作:</p>
+<p> a. 在堆上分配一段内存用来存储@’abc’ ,比如:内存地址为0X1111 内容为 ‘abc’。</p>
+<p> b. 在栈上分配一段内存用来存储str,比如:地址为0XAAAA 内容自然为0X1111。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1.assign的情况:NSString *newStr = [str assign];</span><br></pre></td></tr></table></figure>
+<p>newStr和str完全相同,地址都是0XAAAA ,内容为0X1111 ,即newStr只是str的别名,对任何一个操作就等于对另一个操作。因此retainCount不需要增加。相当于指针赋值，不对引用计数进行操作，注意原对象不用时，一定要把这个设置为nil。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2.retain的情况：NSString * newStr = [str retain];</span><br></pre></td></tr></table></figure></p>
+<p>newStr的地址不再为0XAAAA,可能为0XAABB,但是内容依然为0X1111.因此newStr和str都可以管理’abc’所在的内存。因此 retainCount需要增加1。相当于对原对象的引用计数加1</p>
+<p>3.copy的情况：NSString * newStr = [str copy];</p>
+<p>会在堆上重新开辟一段内存存放@’abc’,比如0X1122,内容为@’abc,同时会在栈上为newStr分配空间,比如地址:0XAACC,内容为0X1122,因此retainCount增加1供newStr来管理0X1122这段内存.</p>
+<p>区别(assign与retain)：</p>
+<ol>
+<li>接触过C，那么假设你用malloc分配了一块内存，并且把它的地址赋值给了指针a，后来你希望指针b也共享这块内存，于是你又把a赋值给（assign）了b。此时a和b指向同一块内存，请问当a不再需要这块内存，能否直接释放它？答案是否定的，因为a并不知道b是否还在使用这块内存，如果a释放了，那么b在使用这块内存的时候会引起程序crash掉。</li>
+<li>了解到1中assign的问题，那么如何解决？最简单的一个方法就是使用引用计数（reference counting），还是上面的那个例子，我们给那块内存设一个引用计数，当内存被分配并且赋值给a时，引用计数是1。当把a赋值给b时引用计数增加到2。这时如果a不再使用这块内存，它只需要把引用计数减1，表明自己不再拥有这块内存。b不再使用这块内存时也把引用计数减1。当引用计数变为0的时候，代表该内存不再被任何指针所引用，系统可以把它直接释放掉。<br>总结：上面两点其实就是assign和retain的区别，assign就是直接赋值，从而可能引起1中的问题，当数据为基础数据类型（NSInteger，CGFloat）和C数据类型（int, float, double, char）时，可以使用assign。retain就如2中所述，使用了引用计数，retain引起引用计数加1, release引起引用计数减1，当引用计数为0时，dealloc函数被调用，内存被回收。</li>
+</ol>
+<p>区别(atomic与nonatomic)：</p>
+<p>atomic、nonatomic，决定编译器生成的getter和setter是否为原子操作。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">atomic</span><br><span class="line"></span><br><span class="line">        设置成员变量的<span class="keyword">@property</span>属性时，默认为atomic，提供多线程安全。</span><br><span class="line"></span><br><span class="line">        在多线程环境下，原子操作是必要的，否则有可能引起错误的结果。加了atomic，<span class="keyword">setter</span>函数会变成下面这样：</span><br><span class="line">                &#123;lock&#125;</span><br><span class="line">                        <span class="keyword">if</span> (property != newValue) &#123; </span><br><span class="line">                                [property release]; </span><br><span class="line">                                property = [newValue <span class="keyword">retain</span>]; </span><br><span class="line">                        &#125;</span><br><span class="line">                &#123;unlock&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">nonatomic</span></span><br><span class="line"></span><br><span class="line">禁止多线程，变量保护，提高性能。</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/04/01/assign/" data-id="cju0pvzvj0000mj56u4oflr3s" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-OC类别与类扩展-初探一" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/03/30/OC类别与类扩展-初探一/" class="article-date">
