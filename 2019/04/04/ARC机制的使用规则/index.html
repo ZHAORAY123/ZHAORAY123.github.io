@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>ARC机制的使用规则 | ZHAORAY&#39;s Blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="ARC谨记! ! !据苹果公布的几条重要的ARC使用规则,我摘录如下几条:1️⃣ 不能调用dealloc,不能重写和调用retain,release,retainCount和autorelease, 一样的像 @selector(retain),@selector(release),这些曲线救国的方法也不能调用.  dealloc虽然可以被重写,但是不可以带哦用[super dealloc]之类的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ARC机制的使用规则">
+<meta property="og:url" content="http://yoursite.com/2019/04/04/ARC机制的使用规则/index.html">
+<meta property="og:site_name" content="ZHAORAY&#39;s Blogs">
+<meta property="og:description" content="ARC谨记! ! !据苹果公布的几条重要的ARC使用规则,我摘录如下几条:1️⃣ 不能调用dealloc,不能重写和调用retain,release,retainCount和autorelease, 一样的像 @selector(retain),@selector(release),这些曲线救国的方法也不能调用.  dealloc虽然可以被重写,但是不可以带哦用[super dealloc]之类的">
+<meta property="og:locale" content="zh_cn">
+<meta property="og:updated_time" content="2019-04-03T17:49:29.800Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ARC机制的使用规则">
+<meta name="twitter:description" content="ARC谨记! ! !据苹果公布的几条重要的ARC使用规则,我摘录如下几条:1️⃣ 不能调用dealloc,不能重写和调用retain,release,retainCount和autorelease, 一样的像 @selector(retain),@selector(release),这些曲线救国的方法也不能调用.  dealloc虽然可以被重写,但是不可以带哦用[super dealloc]之类的">
+  
+    <link rel="alternate" href="/atom.xml" title="ZHAORAY&#39;s Blogs" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">ZHAORAY&#39;s Blogs</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">抽烟喝酒敲代码,和我的小弟阿虎虎</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-ARC机制的使用规则" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/04/ARC机制的使用规则/" class="article-date">
+  <time datetime="2019-04-03T17:09:20.000Z" itemprop="datePublished">2019-04-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ARC机制的使用规则
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="ARC谨记"><a href="#ARC谨记" class="headerlink" title="ARC谨记! ! !"></a>ARC谨记! ! !</h1><h4 id="据苹果公布的几条重要的ARC使用规则-我摘录如下几条"><a href="#据苹果公布的几条重要的ARC使用规则-我摘录如下几条" class="headerlink" title="据苹果公布的几条重要的ARC使用规则,我摘录如下几条:"></a>据苹果公布的几条重要的ARC使用规则,我摘录如下几条:</h4><p>1️⃣ <strong>不能调用<code>dealloc</code>,不能重写和调用<code>retain</code>,<code>release</code>,<code>retainCount</code>和<br><code>autorelease</code>, 一样的像 <code>@selector(retain)</code>,<code>@selector(release)</code>,这些曲线救国的方法也不能调用.</strong></p>
+<ul>
+<li><code>dealloc</code>虽然可以被重写,但是不可以带哦用<code>[super dealloc]</code>之类的方法!</li>
+<li><code>CoreFoundation</code>框架不属于cocoa框架,所以他的<code>CFRetain</code>和<code>CFRelease</code>依然可以使用</li>
+</ul>
+<hr>
+<p>2️⃣ <strong>不能使用NSAllocateObjetc 或 NSDeallocate`函数来<em>创建对象</em></strong>,比如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id obj = NSAllocateObject = NSAllocateObject([NSObject class],0 ,nil];</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="3️⃣-禁止在C语言的结构体中使用指针-同时建议用OC的类来管理数据而不是结构体"><a href="#3️⃣-禁止在C语言的结构体中使用指针-同时建议用OC的类来管理数据而不是结构体" class="headerlink" title="3️⃣ 禁止在C语言的结构体中使用指针,同时建议用OC的类来管理数据而不是结构体."></a>3️⃣ <strong>禁止在C语言的结构体中使用指针,同时建议用OC的类来管理数据而不是结构体.</strong></h2><p>4️⃣ </p>
+<h2 id="id和void-的转换的正确对待"><a href="#id和void-的转换的正确对待" class="headerlink" title="id和void 的转换的正确对待"></a>id和void 的转换的正确对待</h2><h2 id="NSString和CFStringRef是桥接的关系-可以直接互通使用-但是我们使用之前必须加上关键字"><a href="#NSString和CFStringRef是桥接的关系-可以直接互通使用-但是我们使用之前必须加上关键字" class="headerlink" title="NSString和CFStringRef是桥接的关系,可以直接互通使用,但是我们使用之前必须加上关键字"></a><code>NSString</code>和<code>CFStringRef</code>是桥接的关系,可以直接互通使用,但是我们使用之前必须加上关键字</h2><p><strong>_bridge</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NSString *string = @&quot;test&quot;;</span><br><span class="line">CFStringRef cfString = (__bridge CFStringRef)string;</span><br></pre></td></tr></table></figure></p>
+<p><strong>_bridge_retained</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">NSString *string = @&quot;test&quot;;</span><br><span class="line">CFStringRef cfString = (_bridge_retained CFStringRef) string;</span><br><span class="line">//由于Core Foundation的对象不属于ARC的管理范围,所以他需要自己释放内存</span><br><span class="line">CFRelease(cfString);</span><br></pre></td></tr></table></figure></p>
+<p><strong>_bridge_transfer</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CFStringRef cfString = CFStringCreateWithCfString(KCFAllocatorSystemDefault,</span><br><span class="line">                          &quot;abc&quot;,</span><br><span class="line">                          KCFStringEncodingMacRoman);</span><br><span class="line">NSString *string = (_bridge_transfer NSString *) cfString;</span><br><span class="line">//因为已经使用了_bridge_transfer转移了对象的所有权,所以不需要调用release</span><br><span class="line">//CFRelease(cfString)</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="5️⃣-不能使用NSAutoreleasePool对-ARC中-全部用-autorelease关键字代替-且比NSAutorelease更高效"><a href="#5️⃣-不能使用NSAutoreleasePool对-ARC中-全部用-autorelease关键字代替-且比NSAutorelease更高效" class="headerlink" title="5️⃣ 不能使用NSAutoreleasePool对.ARC中,全部用@autorelease关键字代替,且比NSAutorelease更高效"></a>5️⃣ 不能使用<code>NSAutoreleasePool</code>对.ARC中,全部用<code>@autorelease</code>关键字代替,且比<code>NSAutorelease</code>更高效</h2><h2 id="6️⃣-不得使用内存Zone-以及那些设计NSZone相关的方法"><a href="#6️⃣-不得使用内存Zone-以及那些设计NSZone相关的方法" class="headerlink" title="6️⃣ 不得使用内存Zone,以及那些设计NSZone相关的方法"></a>6️⃣ <strong>不得使用内存<code>Zone</code>,以及那些设计<code>NSZone</code>相关的方法</strong></h2><p>##7️⃣不得对一个属性变量的取值方法命名为 new 开头,譬如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@property (strong,nonatomic) NSString *newName;//错误,取值方法名为newName</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="8️⃣outLet均用weak关键字修饰-除非他是xib中中顶部的界面元素-则需要用strong-否则xib-一旦创建完成-就自动销毁"><a href="#8️⃣outLet均用weak关键字修饰-除非他是xib中中顶部的界面元素-则需要用strong-否则xib-一旦创建完成-就自动销毁" class="headerlink" title="8️⃣outLet均用weak关键字修饰,除非他是xib中中顶部的界面元素,则需要用strong,否则xib 一旦创建完成,就自动销毁"></a>8️⃣outLet均用weak关键字修饰,除非他是xib中中顶部的界面元素,则需要用strong,否则xib 一旦创建完成,就自动销毁</h2><h2 id="9️⃣Core-Foundation不使用ARC-该创建的依然创建-该释放的必须释放"><a href="#9️⃣Core-Foundation不使用ARC-该创建的依然创建-该释放的必须释放" class="headerlink" title="9️⃣Core Foundation不使用ARC,该创建的依然创建,该释放的必须释放!"></a>9️⃣Core Foundation不使用ARC,该创建的依然创建,该释放的必须释放!</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/04/04/ARC机制的使用规则/" data-id="cju1ian0900003j56y83sv2az" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/04/03/源码资源-收集/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">源码资源_收集</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/04/04/ARC机制的使用规则/">ARC机制的使用规则</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/03/源码资源-收集/">源码资源_收集</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/03/进程内存是如何分区的/">进程内存是如何分区的</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/02/初探内存管理-一/">初探内存管理(一)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/02/类方法与实例方法/">类方法与实例方法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 ZHAO RUI<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

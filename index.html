@@ -66,6 +66,57 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-ARC机制的使用规则" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/04/ARC机制的使用规则/" class="article-date">
+  <time datetime="2019-04-03T17:09:20.000Z" itemprop="datePublished">2019-04-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/04/ARC机制的使用规则/">ARC机制的使用规则</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="ARC谨记"><a href="#ARC谨记" class="headerlink" title="ARC谨记! ! !"></a>ARC谨记! ! !</h1><h4 id="据苹果公布的几条重要的ARC使用规则-我摘录如下几条"><a href="#据苹果公布的几条重要的ARC使用规则-我摘录如下几条" class="headerlink" title="据苹果公布的几条重要的ARC使用规则,我摘录如下几条:"></a>据苹果公布的几条重要的ARC使用规则,我摘录如下几条:</h4><p>1️⃣ <strong>不能调用<code>dealloc</code>,不能重写和调用<code>retain</code>,<code>release</code>,<code>retainCount</code>和<br><code>autorelease</code>, 一样的像 <code>@selector(retain)</code>,<code>@selector(release)</code>,这些曲线救国的方法也不能调用.</strong></p>
+<ul>
+<li><code>dealloc</code>虽然可以被重写,但是不可以带哦用<code>[super dealloc]</code>之类的方法!</li>
+<li><code>CoreFoundation</code>框架不属于cocoa框架,所以他的<code>CFRetain</code>和<code>CFRelease</code>依然可以使用</li>
+</ul>
+<hr>
+<p>2️⃣ <strong>不能使用NSAllocateObjetc 或 NSDeallocate`函数来<em>创建对象</em></strong>,比如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id obj = NSAllocateObject = NSAllocateObject([NSObject class],0 ,nil];</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="3️⃣-禁止在C语言的结构体中使用指针-同时建议用OC的类来管理数据而不是结构体"><a href="#3️⃣-禁止在C语言的结构体中使用指针-同时建议用OC的类来管理数据而不是结构体" class="headerlink" title="3️⃣ 禁止在C语言的结构体中使用指针,同时建议用OC的类来管理数据而不是结构体."></a>3️⃣ <strong>禁止在C语言的结构体中使用指针,同时建议用OC的类来管理数据而不是结构体.</strong></h2><p>4️⃣ </p>
+<h2 id="id和void-的转换的正确对待"><a href="#id和void-的转换的正确对待" class="headerlink" title="id和void 的转换的正确对待"></a>id和void 的转换的正确对待</h2><h2 id="NSString和CFStringRef是桥接的关系-可以直接互通使用-但是我们使用之前必须加上关键字"><a href="#NSString和CFStringRef是桥接的关系-可以直接互通使用-但是我们使用之前必须加上关键字" class="headerlink" title="NSString和CFStringRef是桥接的关系,可以直接互通使用,但是我们使用之前必须加上关键字"></a><code>NSString</code>和<code>CFStringRef</code>是桥接的关系,可以直接互通使用,但是我们使用之前必须加上关键字</h2><p><strong>_bridge</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NSString *string = @&quot;test&quot;;</span><br><span class="line">CFStringRef cfString = (__bridge CFStringRef)string;</span><br></pre></td></tr></table></figure></p>
+<p><strong>_bridge_retained</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">NSString *string = @&quot;test&quot;;</span><br><span class="line">CFStringRef cfString = (_bridge_retained CFStringRef) string;</span><br><span class="line">//由于Core Foundation的对象不属于ARC的管理范围,所以他需要自己释放内存</span><br><span class="line">CFRelease(cfString);</span><br></pre></td></tr></table></figure></p>
+<p><strong>_bridge_transfer</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CFStringRef cfString = CFStringCreateWithCfString(KCFAllocatorSystemDefault,</span><br><span class="line">                          &quot;abc&quot;,</span><br><span class="line">                          KCFStringEncodingMacRoman);</span><br><span class="line">NSString *string = (_bridge_transfer NSString *) cfString;</span><br><span class="line">//因为已经使用了_bridge_transfer转移了对象的所有权,所以不需要调用release</span><br><span class="line">//CFRelease(cfString)</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="5️⃣-不能使用NSAutoreleasePool对-ARC中-全部用-autorelease关键字代替-且比NSAutorelease更高效"><a href="#5️⃣-不能使用NSAutoreleasePool对-ARC中-全部用-autorelease关键字代替-且比NSAutorelease更高效" class="headerlink" title="5️⃣ 不能使用NSAutoreleasePool对.ARC中,全部用@autorelease关键字代替,且比NSAutorelease更高效"></a>5️⃣ 不能使用<code>NSAutoreleasePool</code>对.ARC中,全部用<code>@autorelease</code>关键字代替,且比<code>NSAutorelease</code>更高效</h2><h2 id="6️⃣-不得使用内存Zone-以及那些设计NSZone相关的方法"><a href="#6️⃣-不得使用内存Zone-以及那些设计NSZone相关的方法" class="headerlink" title="6️⃣ 不得使用内存Zone,以及那些设计NSZone相关的方法"></a>6️⃣ <strong>不得使用内存<code>Zone</code>,以及那些设计<code>NSZone</code>相关的方法</strong></h2><p>##7️⃣不得对一个属性变量的取值方法命名为 new 开头,譬如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@property (strong,nonatomic) NSString *newName;//错误,取值方法名为newName</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="8️⃣outLet均用weak关键字修饰-除非他是xib中中顶部的界面元素-则需要用strong-否则xib-一旦创建完成-就自动销毁"><a href="#8️⃣outLet均用weak关键字修饰-除非他是xib中中顶部的界面元素-则需要用strong-否则xib-一旦创建完成-就自动销毁" class="headerlink" title="8️⃣outLet均用weak关键字修饰,除非他是xib中中顶部的界面元素,则需要用strong,否则xib 一旦创建完成,就自动销毁"></a>8️⃣outLet均用weak关键字修饰,除非他是xib中中顶部的界面元素,则需要用strong,否则xib 一旦创建完成,就自动销毁</h2><h2 id="9️⃣Core-Foundation不使用ARC-该创建的依然创建-该释放的必须释放"><a href="#9️⃣Core-Foundation不使用ARC-该创建的依然创建-该释放的必须释放" class="headerlink" title="9️⃣Core Foundation不使用ARC,该创建的依然创建,该释放的必须释放!"></a>9️⃣Core Foundation不使用ARC,该创建的依然创建,该释放的必须释放!</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/04/04/ARC机制的使用规则/" data-id="cju1ian0900003j56y83sv2az" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-源码资源-收集" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/04/03/源码资源-收集/" class="article-date">
@@ -163,7 +214,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/03/源码资源-收集/" data-id="cju1dr2am0006cj56z6vq8ptr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/04/03/源码资源-收集/" data-id="cju1ian0l00063j567k4lxv21" class="article-share-link">Share</a>
       
       
     </footer>
@@ -228,7 +279,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/03/进程内存是如何分区的/" data-id="cju1dr2an0007cj56cdv13u5f" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/04/03/进程内存是如何分区的/" data-id="cju1ian0n00093j56f2gb9v1w" class="article-share-link">Share</a>
       
       
     </footer>
@@ -289,7 +340,7 @@ NSString就属于这一类
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/02/初探内存管理-一/" data-id="cju1dr2ag0002cj56kk8bzlly" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/04/02/初探内存管理-一/" data-id="cju1ian0g00023j56h07avyiy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -332,7 +383,7 @@ NSString就属于这一类
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/02/类方法与实例方法/" data-id="cju1dr2ak0005cj565vl3zbgn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/04/02/类方法与实例方法/" data-id="cju1ian0m00083j56ibkr9w5o" class="article-share-link">Share</a>
       
       
     </footer>
@@ -391,7 +442,7 @@ NSString就属于这一类
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/02/日志分析之NSLOG/" data-id="cju1dr2ao0008cj56amw8amkq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/04/02/日志分析之NSLOG/" data-id="cju1ian0l00073j564dpfpk0o" class="article-share-link">Share</a>
       
       
     </footer>
@@ -447,7 +498,7 @@ NSString就属于这一类
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/01/assign/" data-id="cju1dr2ae0001cj56m8rluen1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/04/01/assign/" data-id="cju1ian0e00013j5679kj4yij" class="article-share-link">Share</a>
       
       
     </footer>
@@ -484,7 +535,7 @@ NSString就属于这一类
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/01/数据结构之串-模式匹配KMP/" data-id="cju1dr2ai0004cj56ome0kd4w" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/04/01/数据结构之串-模式匹配KMP/" data-id="cju1ian0i00033j56ykkgda3t" class="article-share-link">Share</a>
       
       
     </footer>
@@ -566,7 +617,7 @@ NSString就属于这一类
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/30/OC类别与类扩展-初探一/" data-id="cju1dr2b00009cj56j5xk85pn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/30/OC类别与类扩展-初探一/" data-id="cju1ian0v000a3j56x91666df" class="article-share-link">Share</a>
       
       
     </footer>
@@ -652,46 +703,7 @@ NSString就属于这一类
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/02/03/小记-变量异同/" data-id="cju1dr2ah0003cj56o5hushyx" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-15541123796324" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/01/01/15541123796324/" class="article-date">
-  <time datetime="2018-12-31T18:03:37.000Z" itemprop="datePublished">2019-01-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/01/15541123796324/">学习框架列表</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="SVProgressHUD"><a href="#SVProgressHUD" class="headerlink" title="SVProgressHUD"></a>SVProgressHUD</h1><p><a href="https://cocoapods.org/pods/SVProgressHUD" target="_blank" rel="noopener">https://cocoapods.org/pods/SVProgressHUD</a></p>
-<h1 id="MKNetworkKit"><a href="#MKNetworkKit" class="headerlink" title="MKNetworkKit"></a>MKNetworkKit</h1><p><a href="https://cocoapods.org/pods/MKNetworkKit" target="_blank" rel="noopener">https://cocoapods.org/pods/MKNetworkKit</a></p>
-<h1 id="AFNetworking"><a href="#AFNetworking" class="headerlink" title="AFNetworking"></a>AFNetworking</h1><p><a href="https://cocoapods.org/pods/AFNetworking" target="_blank" rel="noopener">https://cocoapods.org/pods/AFNetworking</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/01/15541123796324/" data-id="cju1dr2aa0000cj56putnw3uy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/02/03/小记-变量异同/" data-id="cju1ian0k00053j56d6l1c1ur" class="article-share-link">Share</a>
       
       
     </footer>
@@ -702,6 +714,11 @@ NSString就属于这一类
 
   
 
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+  </nav>
 
 </section>
         
@@ -732,6 +749,10 @@ NSString就属于这一类
       <ul>
         
           <li>
+            <a href="/2019/04/04/ARC机制的使用规则/">ARC机制的使用规则</a>
+          </li>
+        
+          <li>
             <a href="/2019/04/03/源码资源-收集/">源码资源_收集</a>
           </li>
         
@@ -745,10 +766,6 @@ NSString就属于这一类
         
           <li>
             <a href="/2019/04/02/类方法与实例方法/">类方法与实例方法</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/02/日志分析之NSLOG/">日志分析之NSLOG</a>
           </li>
         
       </ul>
